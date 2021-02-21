@@ -1,90 +1,64 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "./style.css";
 import API from "../../utils/API";
+import SearchBar from "../Searchbar/index";
 
-// class EmployeeResults extends Component {
-//   state = {
-//     image: "",
-//     name: "",
-//     phone: "",
-//     email: "",
-//     dob: "",
-//   };
-
-//   componentDidMount() {
-//     this.SearchEmployees();
-//   }
-
-//   // need an onchangeevent no button
-//   handleFormSubmit = (event) => {
-//     event.preventDefault();
-//     this.SearchEmployees(this.state.getEmployees);
-//   };
-
-//   SearchEmployees = (query) => {
-//     API.getEmployees(query)
-//       .then((res) => this.setState({ results: res.data.data }))
-//       .catch((err) => console.log(err));
-//   };
-
-//   handleInputChange = (event) => {
-//     const name = event.target.name;
-//     const value = event.target.value;
-//     this.setState({
-//       [name]: value,
-//     });
-//   };
-//   // () {
-//   //   fetchEmployees = () => {
-//   //     API.getEmployees()
-//   //       .then((res) => this.setState({}))
-//   //       .catch((err) => console.log(err));
-//   //   };
-//   // }
-
-//   render() {
-//     return (
-//       <ul className="list-group search-results">
-//         <h1>Search Results</h1>
-//         {/* {props.results.map((result) => (
-//       <li key={result} className="list-group-item">
-//         <img alt="Dog" src={result} className="img-fluid" />
-//       </li>
-//     ))} */}
-//       </ul>
-//     );
-//   }
-// }
-// export default EmployeeResults;
 function App() {
   const [employeeState, setEmployeeState] = useState([]);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     API.getEmployees()
       .then((res) => {
         setEmployeeState(res.data.results);
-        console.log("Employee State:");
-        console.log(employeeState);
+        // console.log("Employee State:");
+        // console.log(employeeState);
       })
       .catch((err) => console.log(err));
   }, []);
 
+  function handleInputChange(event) {
+    setSearch(event.target.value);
+    // console.log(event.target.value);
+  }
   // const { image, name, phone, email, dob } = employeeState;
+  const filteredNames = employeeState.filter((name) => {
+    return name.name.first.toLowerCase().includes(search.toLowerCase());
+  });
 
+  console.log("filtered names: ");
+  console.log(filteredNames);
+
+  const sortNames = employeeState.sort(function (a, b) {
+    const nameA = a.name.first.toLowerCase();
+    const nameB = b.name.first.toLowerCase();
+
+    if (nameA < nameB) {
+      return -1;
+    }
+    if (nameA > nameB) {
+      return 1;
+    }
+    return 0;
+  });
   return (
-    <ul className="list-group search-results">
-      {console.log(employeeState)}
+    <div>
+      {/* <SearchBar></SearchBar> */}
+      <input
+        type="text"
+        placeholder="Search Employee"
+        onChange={handleInputChange}
+      />
 
-      {/* map through each returned employee returning all information for each employee on one line, new employee on next line */}
       <table>
         <tr>
           <th>Image</th>
-          <th>Name</th>
+          <th onClick={sortNames}>Name</th>
           <th>Phone</th>
           <th>Email</th>
           <th>DOB</th>
         </tr>
-        {employeeState.map((result) => {
+        {filteredNames.map((result) => {
           return (
             <tr>
               <td>
@@ -104,7 +78,7 @@ function App() {
           );
         })}
       </table>
-    </ul>
+    </div>
   );
 }
 

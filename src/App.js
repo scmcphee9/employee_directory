@@ -9,7 +9,7 @@ function App() {
     <Router>
       <div>
         <Navbar />
-        <Searchbar />
+        {/* <Searchbar /> */}
         <SearchResults />
       </div>
     </Router>

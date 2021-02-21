@@ -54,18 +54,21 @@ function App() {
   });
 
   return (
-    <div>
+    <div className="searchResults">
       {/* <SearchBar></SearchBar> */}
       <input
         type="text"
         placeholder="Search Employee"
         onChange={handleInputChange}
       />
+      <br></br>
 
       <table>
         <tr>
           <th>Image</th>
-          <th onClick={sortNames}>Name</th>
+          <th onClick={sortNames}>
+            Name {" "}<button>&#94;</button>
+          </th>
           <th>Phone</th>
           <th>Email</th>
           <th>DOB</th>

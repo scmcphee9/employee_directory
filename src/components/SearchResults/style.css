@@ -1,0 +1,38 @@
+.searchResults {
+  text-align: center;
+}
+
+table,
+tr {
+  border: 1px solid gray;
+  border-collapse: collapse;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+tr:hover {
+  background-color: #ddd;
+}
+
+th {
+  background-color: rgb(13, 13, 85);
+  color: antiquewhite;
+}
+th,
+td {
+  padding: 15px;
+}
+
+table {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+  width: 75%;
+}
+
+button {
+  background-color: rgb(13, 13, 85);
+  color: antiquewhite;
+}

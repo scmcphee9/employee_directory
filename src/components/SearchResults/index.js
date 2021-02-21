@@ -38,7 +38,7 @@ function App() {
   });
 
   // console.log("filtered names: ");
-  // console.log(filteredNames);
+  console.log(filteredNames);
 
   const sortNames = employeeState.sort(function (a, b) {
     const nameA = a.name.first.toLowerCase();
@@ -67,13 +67,18 @@ function App() {
         <tr>
           <th>Image</th>
           <th onClick={sortNames}>
-            Name {" "}<button>&#94;</button>
+            Name <button>&#94;</button>
           </th>
           <th>Phone</th>
           <th>Email</th>
           <th>DOB</th>
         </tr>
         {filteredNames.map((result) => {
+          const date = new Date(result.dob.date);
+          const month = date.getUTCMonth() + 1;
+          const day = date.getUTCDate();
+          const year = date.getUTCFullYear();
+          const newDate = month + "-" + day + "-" + year;
           return (
             <tr>
               <td>
@@ -88,7 +93,7 @@ function App() {
               </td>
               <td>{result.phone}</td>
               <td>{result.email}</td>
-              <td>{result.dob.date}</td>
+              <td>{newDate}</td>
             </tr>
           );
         })}

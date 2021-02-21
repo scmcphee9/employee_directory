@@ -6,6 +6,7 @@ import SearchBar from "../Searchbar/index";
 function App() {
   const [employeeState, setEmployeeState] = useState([]);
   const [search, setSearch] = useState("");
+  // const [sort, setSort] = useState([]);
 
   useEffect(() => {
     API.getEmployees()
@@ -23,11 +24,21 @@ function App() {
   }
   // const { image, name, phone, email, dob } = employeeState;
   const filteredNames = employeeState.filter((name) => {
-    return name.name.first.toLowerCase().includes(search.toLowerCase());
+    // console.log("phone:");
+    // console.log(typeof name.phone);
+    // console.log(typeof search);
+    if (typeof search === "string") {
+      return name.name.first.toLowerCase().includes(search.toLowerCase());
+    }
+    // if(typeof search === "string") {
+    //   console.log("phone:");
+    //   console.log(name.phone);
+    //   return name.phone.replace("(","").includes(search);
+    // }
   });
 
-  console.log("filtered names: ");
-  console.log(filteredNames);
+  // console.log("filtered names: ");
+  // console.log(filteredNames);
 
   const sortNames = employeeState.sort(function (a, b) {
     const nameA = a.name.first.toLowerCase();
@@ -41,6 +52,7 @@ function App() {
     }
     return 0;
   });
+
   return (
     <div>
       {/* <SearchBar></SearchBar> */}

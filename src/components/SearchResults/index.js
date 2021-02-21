@@ -6,7 +6,7 @@ import SearchBar from "../Searchbar/index";
 function App() {
   const [employeeState, setEmployeeState] = useState([]);
   const [search, setSearch] = useState("");
-  // const [sort, setSort] = useState([]);
+  const [sort, setSort] = useState("asc");
 
   useEffect(() => {
     API.getEmployees()
@@ -28,7 +28,10 @@ function App() {
     // console.log(typeof name.phone);
     // console.log(typeof search);
     if (typeof search === "string") {
-      return name.name.first.toLowerCase().includes(search.toLowerCase());
+      return (
+        name.name.first.toLowerCase().includes(search.toLowerCase()) ||
+        name.phone.includes(search)
+      );
     }
     // if(typeof search === "string") {
     //   console.log("phone:");
@@ -40,18 +43,26 @@ function App() {
   // console.log("filtered names: ");
   console.log(filteredNames);
 
-  const sortNames = employeeState.sort(function (a, b) {
-    const nameA = a.name.first.toLowerCase();
-    const nameB = b.name.first.toLowerCase();
+  // const onSort = (sortType) => {
+  //   setSort({ sortType });
+  // };
 
-    if (nameA < nameB) {
-      return -1;
-    }
-    if (nameA > nameB) {
-      return 1;
-    }
-    return 0;
-  });
+  // const sortNames = employeeState.sort(function (a, b) {
+  //   // const isReversed = sortType === "asc" ? 1 : -1;
+  //   // return isReversed * a.name.first.localeCompare(b.name.first);
+  //   const nameA = a.name.first.toLowerCase();
+  //   const nameB = b.name.first.toLowerCase();
+
+  //   if (nameA < nameB) {
+  //     setSort("asc");
+  //     return -1;
+  //   }
+  //   if (nameA > nameB) {
+  //     setSort("desc");
+  //     return 1;
+  //   }
+  //   return 0;
+  // });
 
   return (
     <div className="searchResults">
@@ -66,8 +77,8 @@ function App() {
       <table>
         <tr>
           <th>Image</th>
-          <th onClick={sortNames}>
-            Name <button>&#94;</button>
+          <th>
+            {/* Name <button onClick={() => sortNames.onSort("asc")}>&#94;</button> */}
           </th>
           <th>Phone</th>
           <th>Email</th>

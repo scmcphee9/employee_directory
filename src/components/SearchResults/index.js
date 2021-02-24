@@ -46,26 +46,29 @@ function App() {
   // const onSort = (sortType) => {
   //   setSort({ sortType });
   // };
+  function sortFilteredNames() {
+    const sortNames = employeeState.sort(function (a, b, order) {
+      // const isReversed = sortType === "asc" ? 1 : -1;
+      // return isReversed * a.name.first.localeCompare(b.name.first);
+      const nameA = a.name.first.toLowerCase();
+      const nameB = b.name.first.toLowerCase();
+      // const order = "asc";
 
-  const sortNames = employeeState.sort(function (a, b, order) {
-    // const isReversed = sortType === "asc" ? 1 : -1;
-    // return isReversed * a.name.first.localeCompare(b.name.first);
-    const nameA = a.name.first.toLowerCase();
-    const nameB = b.name.first.toLowerCase();
-    // const order = "asc";
+      if (nameA < nameB) {
+        order = "desc";
+        return -1;
+      }
+      if (nameA > nameB) {
+        order = "asc";
+        return 1;
+      }
+      return 0;
+    });
+    setEmployeeState([...sortNames]);
+  }
 
-    if (nameA < nameB) {
-      order = "desc";
-      return -1;
-    }
-    if (nameA > nameB) {
-      order = "asc";
-      return 1;
-    }
-    return 0;
-  });
-  console.log("sortNames:");
-  console.log(sortNames);
+  // console.log("sortNames:");
+  // console.log(sortNames);
   return (
     <div className="searchResults">
       {/* <SearchBar></SearchBar> */}
@@ -80,7 +83,7 @@ function App() {
         <tr>
           <th>Image</th>
           <th>
-            Name <button onClick={() => sortNames()}>&#94;</button>
+            Name <button onClick={() => sortFilteredNames()}>&#94;</button>
           </th>
           <th>Phone</th>
           <th>Email</th>

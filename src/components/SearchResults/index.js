@@ -6,7 +6,7 @@ import SearchBar from "../Searchbar/index";
 function App() {
   const [employeeState, setEmployeeState] = useState([]);
   const [search, setSearch] = useState("");
-  const [sort, setSort] = useState("");
+  const [order, setOrder] = useState("");
 
   useEffect(() => {
     API.getEmployees()
@@ -33,40 +33,42 @@ function App() {
         name.phone.includes(search)
       );
     }
-    // if(typeof search === "string") {
-    //   console.log("phone:");
-    //   console.log(name.phone);
-    //   return name.phone.replace("(","").includes(search);
-    // }
   });
 
   // console.log("filtered names: ");
   console.log(filteredNames);
 
-  // const onSort = (sortType) => {
-  //   setSort({ sortType });
-  // };
   function sortFilteredNames() {
-    const sortNames = employeeState.sort(function (a, b, order) {
-      // const isReversed = sortType === "asc" ? 1 : -1;
-      // return isReversed * a.name.first.localeCompare(b.name.first);
+    const sortNames = employeeState.sort(function (a, b) {
       const nameA = a.name.first.toLowerCase();
       const nameB = b.name.first.toLowerCase();
-      // const order = "asc";
 
+      let comparison = 0;
       if (nameA < nameB) {
-        order = "desc";
-        return -1;
+        comparison = -1;
+        setOrder("desc");
       }
       if (nameA > nameB) {
-        order = "asc";
-        return 1;
+        comparison = 1;
+        setOrder("asc");
       }
-      return 0;
+      return comparison;
     });
-    setEmployeeState([...sortNames]);
+    console.log(sortNames);
+    if (order === "desc") {
+      setEmployeeState([...sortNames].reverse());
+    } else {
+      setEmployeeState([...sortNames]);
+    }
   }
 
+  function setDate(result) {
+    const date = new Date(result.dob.date);
+    const month = date.getUTCMonth() + 1;
+    const day = date.getUTCDate();
+    const year = date.getUTCFullYear();
+    return month + "-" + day + "-" + year;
+  }
   // console.log("sortNames:");
   // console.log(sortNames);
   return (
@@ -90,11 +92,7 @@ function App() {
           <th>DOB</th>
         </tr>
         {filteredNames.map((result) => {
-          const date = new Date(result.dob.date);
-          const month = date.getUTCMonth() + 1;
-          const day = date.getUTCDate();
-          const year = date.getUTCFullYear();
-          const newDate = month + "-" + day + "-" + year;
+          const newDate = setDate(result);
           return (
             <tr>
               <td>

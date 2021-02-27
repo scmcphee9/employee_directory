@@ -1,5 +1,7 @@
 # Employee Directory ![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)
 
+[Deployed Link](https://pensive-snyder-69b1b3.netlify.app)
+
 <img src = "./public/employee-directory.png" alt="Employee Directory Screenshot">
 
 ## Project Description
